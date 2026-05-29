@@ -1,0 +1,9 @@
+{
+    "pythonVersion": "3.13",
+    "pythonPlatform": "Windows",
+    "venvPath": "${workspaceFolder}/venv",
+    "extraPaths": ["${workspaceFolder}/venv/Lib/site-packages"],
+    "include": ["app.py", "models.py", "config.py", "routes/", "templates/"],
+    "exclude": ["**/node_modules", "**/__pycache__", "**/.venv", "**/venv", "**/.env", "**/.git", "**/.vscode", "**/.pytest_cache", "**/*.pyc", "**/.*", "uploads/"],
+    "typeCheckingMode": "basic"
+}

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Citizen Feedback on Road Maintenance{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    
+    <!-- Leaflet CSS (local - fixes tracking prevention) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/leaflet.css') }}">
+
+    <style>
+        :root {
+            --asphalt:   #1a1a1e;
+            --tar:       #111114;
+            --concrete:  #2e2e35;
+            --lane:      #f0a500;
+            --lane-dim:  #c47f00;
+            --mist:      #9191a4;
+            --white:     #f4f4f6;
+            --danger:    #e05555;
+            --success:   #3dba7e;
+            --warning:   #f0a500;
+            --info:      #4db8d4;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            background-color: var(--tar);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── NAVBAR ── */
+        .rmp-nav {
+            background: var(--asphalt);
+            border-bottom: 1px solid var(--concrete);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .rmp-nav .navbar-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 0.08em;
+            color: var(--white) !important;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rmp-nav .brand-icon-sm {
+            width: 30px;
+            height: 30px;
+            background: var(--lane);
+            border-radius: 2px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rmp-nav .brand-icon-sm svg {
+            width: 18px; height: 18px; fill: var(--tar);
+        }
+
+        .rmp-nav .nav-link {
+            color: var(--mist) !important;
+            font-size: 0.82rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            font-weight: 500;
+            padding: 0.55rem 0.9rem !important;
+            transition: color 0.2s;
+        }
+
+        .rmp-nav .nav-link:hover,
+        .rmp-nav .nav-link.active {
+            color: var(--lane) !important;
+        }
+
+        .rmp-nav .dropdown-menu {
+            background: var(--asphalt);
+            border: 1px solid var(--concrete);
+            border-radius: 2px;
+            margin-top: 4px;
+        }
+
+        .rmp-nav .dropdown-item {
+            color: var(--mist);
+            font-size: 0.82rem;
+            letter-spacing: 0.04em;
+            padding: 0.5rem 1.1rem;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .rmp-nav .dropdown-item:hover {
+            background: rgba(240,165,0,0.1);
+            color: var(--lane);
+        }
+
+        .rmp-nav .dropdown-divider { border-color: var(--concrete); }
+
+        .rmp-nav .navbar-toggler {
+            border-color: var(--concrete);
+        }
+        .rmp-nav .navbar-toggler-icon {
+            filter: invert(0.7);
+        }
+
+        /* Amber accent underline on active link */
+        .rmp-nav .nav-link.active::after {
+            content: '';
+            display: block;
+            height: 2px;
+            background: var(--lane);
+            border-radius: 1px;
+        }
+
+        /* ── FLASH MESSAGES ── */
+        .flash-wrap { padding: 0.8rem 1.5rem 0; }
+
+        .alert {
+            border-radius: 2px;
+            font-size: 0.82rem;
+            border: 0;
+            border-left: 3px solid;
+        }
+
+        .alert-success  { background: rgba(61,186,126,0.12); border-color: var(--success); color: #7de0b0; }
+        .alert-danger   { background: rgba(224,85,85,0.12);  border-color: var(--danger);  color: #f09090; }
+        .alert-warning  { background: rgba(240,165,0,0.12);  border-color: var(--warning); color: #f0c050; }
+        .alert-info     { background: rgba(77,184,212,0.12); border-color: var(--info);    color: #90d8e8; }
+
+        .btn-close { filter: invert(0.7); }
+
+        /* ── MAIN ── */
+        main {
+            flex: 1;
+            padding: 2rem 0;
+        }
+
+        /* ── FOOTER ── */
+        .rmp-footer {
+            background: var(--asphalt);
+            border-top: 1px solid var(--concrete);
+            padding: 2.5rem 0 1.5rem;
+            margin-top: auto;
+        }
+
+        .rmp-footer h5 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            color: var(--lane);
+            margin-bottom: 0.8rem;
+        }
+
+        .rmp-footer p,
+        .rmp-footer ul { font-size: 0.78rem; color: var(--mist); }
+
+        .rmp-footer a { color: var(--mist); text-decoration: none; transition: color 0.2s; }
+        .rmp-footer a:hover { color: var(--lane); }
+
+        .rmp-footer li { margin-bottom: 4px; }
+
+        .rmp-footer hr { border-color: var(--concrete); margin: 1.2rem 0 0.8rem; }
+
+        .rmp-footer .copyright {
+            text-align: center;
+            font-size: 0.72rem;
+            color: #50505f;
+        }
+
+        /* ── GLOBAL CARD STYLE ── */
+        .card {
+            background: var(--asphalt);
+            border: 1px solid var(--concrete);
+            border-radius: 3px;
+            color: var(--white);
+        }
+
+        .card-header {
+            background: rgba(0,0,0,0.25);
+            border-bottom: 1px solid var(--concrete);
+            padding: 0.85rem 1.2rem;
+        }
+
+        .card-body { padding: 1.2rem; }
+
+        /* ── GLOBAL TABLE ── */
+        .table {
+            color: var(--white);
+            --bs-table-bg: transparent;
+            --bs-table-hover-bg: rgba(240,165,0,0.06);
+            font-size: 0.83rem;
+        }
+
+        .table thead th {
+            background: rgba(0,0,0,0.3);
+            color: var(--mist);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-color: var(--concrete);
+            padding: 0.7rem 1rem;
+            font-weight: 500;
+        }
+
+        .table td {
+            border-color: var(--concrete);
+            padding: 0.75rem 1rem;
+            vertical-align: middle;
+        }
+
+        .table-light { --bs-table-bg: rgba(0,0,0,0.3); }
+
+        /* ── GLOBAL BUTTONS ── */
+        .btn {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.78rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            border-radius: 2px;
+            font-weight: 500;
+        }
+
+        .btn-primary    { background: var(--lane);    border-color: var(--lane);    color: var(--tar); }
+        .btn-primary:hover { background: var(--lane-dim); border-color: var(--lane-dim); color: var(--tar); }
+
+        .btn-danger     { background: var(--danger);  border-color: var(--danger);  color: #fff; }
+        .btn-danger:hover { background: #c04040; border-color: #c04040; }
+
+        .btn-info       { background: var(--info);    border-color: var(--info);    color: var(--tar); }
+        .btn-info:hover { background: #35a0ba; border-color: #35a0ba; color: var(--tar); }
+
+        .btn-success    { background: var(--success); border-color: var(--success); color: var(--tar); }
+        .btn-success:hover { background: #30a06a; border-color: #30a06a; }
+
+        .btn-outline-primary { border-color: var(--lane); color: var(--lane); background: transparent; }
+        .btn-outline-primary:hover { background: rgba(240,165,0,0.12); color: var(--lane); }
+
+        .btn-sm { font-size: 0.72rem; padding: 0.3rem 0.7rem; }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--tar); }
+        ::-webkit-scrollbar-thumb { background: var(--concrete); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--lane-dim); }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg rmp-nav">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <span class="brand-icon-sm">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 20h4l1-4H1v4zm6 0h4v-4H6l1 4zm5 0h4l1-4h-4l-1 4zm5 0h4v-4h-3l-1 4zM3 14h18l-1-4H4L3 14zm2-6h14l-1-3H6L5 8z"/>
+                    </svg>
+                </span>
+                Road Maintenance Portal
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                    </li>
+
+                    {% if is_logged_in %}
+                        {% if is_admin %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-shield-check me-1"></i>Admin
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item" href="{{ url_for('admin.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('admin.view_all_complaints') }}"><i class="bi bi-list-ul me-2"></i>All Complaints</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('admin.statistics') }}"><i class="bi bi-bar-chart me-2"></i>Statistics</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('user.logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-person-circle me-1"></i>{{ current_user_name }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="{{ url_for('user.view_complaints') }}"><i class="bi bi-card-list me-2"></i>My Complaints</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('user.submit_complaint') }}"><i class="bi bi-plus-circle me-2"></i>Submit New</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('user.logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('user.login') }}">Login</a>
+                        </li>
+                        <li class="nav-item ms-1">
+                            <a class="nav-link" href="{{ url_for('user.register') }}"
+                               style="background:var(--lane);color:var(--tar)!important;padding:0.4rem 1rem!important;border-radius:2px;">
+                               Register
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+<div class="flash-wrap">
+                {% for category, message in get_flashed_messages(with_categories=true) %}
+                    {% if category == 'user_notification' %}
+                        <!-- JS Toast for user notifications -->
+                    {% else %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Toast Container for Notifications -->
+            <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1099;" data-show-toast="{% if get_flashed_messages(with_categories=true)|selectattr('0', 'equalto', 'user_notification')|list %}{% endif %}">
+                <div id="statusToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <i class="bi bi-bell me-2 text-primary"></i>
+                        <strong class="me-auto">Status Update</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                    </div>
+                    <div class="toast-body">
+                        Your complaint status has been updated!
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // Show toast for user notifications - pure JS
+                document.addEventListener('DOMContentLoaded', function() {
+                    const toastContainer = document.querySelector('.toast-container[data-show-toast]');
+                    if (toastContainer && toastContainer.dataset.showToast) {
+                        const toast = new bootstrap.Toast(document.getElementById('statusToast'));
+                        toast.show();
+                    }
+                });
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="rmp-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>About</h5>
+                    <p>A platform for citizens to report and track road maintenance issues in their communities.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="{{ url_for('about') }}">About</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Contact</h5>
+                    <p>Email: support@roadmaintenance.com</p>
+                </div>
+            </div>
+            <hr>
+            <p class="copyright">© 2026 Road Maintenance Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Leaflet JS (local - fixes tracking prevention) -->
+    <script src="{{ url_for('static', filename='js/leaflet.js') }}"></script>
+    
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

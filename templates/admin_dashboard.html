@@ -1,0 +1,372 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Road Maintenance Portal{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* ── PAGE HEADER ── */
+    .page-header {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        margin-bottom: 2rem;
+        padding-bottom: 0.8rem;
+        border-bottom: 1px solid var(--concrete);
+        animation: fadeDown 0.5s ease both;
+    }
+
+    .page-header h2 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2.2rem;
+        letter-spacing: 0.06em;
+        color: var(--white);
+        margin: 0;
+        line-height: 1;
+    }
+
+    .page-header .page-tag {
+        font-size: 0.7rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--lane);
+        border: 1px solid rgba(240,165,0,0.35);
+        padding: 3px 8px;
+        border-radius: 2px;
+    }
+
+    @keyframes fadeDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── STAT CARDS ── */
+    .stat-card {
+        background: var(--asphalt);
+        border: 1px solid var(--concrete);
+        border-radius: 3px;
+        padding: 1.3rem 1.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        transition: border-color 0.2s, transform 0.2s;
+        animation: fadeUp 0.5s ease both;
+        cursor: default;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .stat-card:nth-child(1) { animation-delay: 0.05s; }
+    .stat-card:nth-child(2) { animation-delay: 0.1s; }
+    .stat-card:nth-child(3) { animation-delay: 0.15s; }
+    .stat-card:nth-child(4) { animation-delay: 0.2s; }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(16px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .stat-card.total   { border-left: 3px solid var(--info); }
+    .stat-card.total:hover   { border-color: var(--info); }
+
+    .stat-card.pending { border-left: 3px solid var(--danger); }
+    .stat-card.pending:hover { border-color: var(--danger); }
+
+    .stat-card.progress { border-left: 3px solid var(--warning); }
+    .stat-card.progress:hover { border-color: var(--warning); }
+
+    .stat-card.resolved { border-left: 3px solid var(--success); }
+    .stat-card.resolved:hover { border-color: var(--success); }
+
+    .stat-label {
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--mist);
+        margin-bottom: 0.35rem;
+        font-weight: 500;
+    }
+
+    .stat-value {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2.8rem;
+        letter-spacing: 0.02em;
+        line-height: 1;
+        color: var(--white);
+    }
+
+    .stat-icon {
+        font-size: 2rem;
+        opacity: 0.5;
+        flex-shrink: 0;
+    }
+
+    .stat-card.total   .stat-icon { color: var(--info); }
+    .stat-card.pending .stat-icon { color: var(--danger); }
+    .stat-card.progress .stat-icon { color: var(--warning); }
+    .stat-card.resolved .stat-icon { color: var(--success); }
+
+    /* ── QUICK ACTIONS ── */
+    .section-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.15rem;
+        letter-spacing: 0.08em;
+        color: var(--white);
+        margin: 0;
+    }
+
+    .section-title i {
+        color: var(--lane);
+        margin-right: 6px;
+    }
+
+    .actions-row {
+        display: flex;
+        gap: 0.7rem;
+        flex-wrap: wrap;
+        padding: 1rem 0 0;
+    }
+
+    /* ── TABLE SECTION ── */
+    .table-card .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--mist);
+    }
+
+    .empty-state i {
+        font-size: 2.5rem;
+        color: var(--concrete);
+        display: block;
+        margin-bottom: 0.75rem;
+    }
+
+    .empty-state a { color: var(--lane); text-decoration: none; }
+    .empty-state a:hover { text-decoration: underline; }
+
+    /* Status badges */
+    .badge-status {
+        font-size: 0.65rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 3px 8px;
+        border-radius: 2px;
+        font-weight: 500;
+    }
+
+    .badge-pending  { background: rgba(224,85,85,0.15);  color: #f09090; border: 1px solid rgba(224,85,85,0.3); }
+    .badge-progress { background: rgba(240,165,0,0.15);  color: #f0c050; border: 1px solid rgba(240,165,0,0.3); }
+    .badge-resolved { background: rgba(61,186,126,0.15); color: #7de0b0; border: 1px solid rgba(61,186,126,0.3); }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="page-header">
+    <h2><i class="bi bi-speedometer2" style="color:var(--lane);"></i> Admin Dashboard</h2>
+    <span class="page-tag">Operations</span>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="stat-card total">
+            <div>
+                <div class="stat-label">Total Complaints</div>
+                <div class="stat-value">{{ stats.total }}</div>
+            </div>
+            <i class="bi bi-exclamation-triangle stat-icon"></i>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="stat-card pending">
+            <div>
+                <div class="stat-label">Pending</div>
+                <div class="stat-value">{{ stats.pending }}</div>
+            </div>
+            <i class="bi bi-hourglass-split stat-icon"></i>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="stat-card progress">
+            <div>
+                <div class="stat-label">In Progress</div>
+                <div class="stat-value">{{ stats.in_progress }}</div>
+            </div>
+            <i class="bi bi-arrow-repeat stat-icon"></i>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <div class="stat-card resolved">
+            <div>
+                <div class="stat-label">Resolved</div>
+                <div class="stat-value">{{ stats.resolved }}</div>
+            </div>
+            <i class="bi bi-check-circle stat-icon"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Advanced Analytics Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-md-6">
+        <div class="stat-card" style="border-left-color: #dc3545;">
+            <div>
+                <div class="stat-label">Most Damaged Area</div>
+                <div class="stat-value">{{ stats.most_damaged_count }}</div>
+                <small class="text-muted d-block">{{ stats.most_damaged_area }}</small>
+            </div>
+            <i class="bi bi-geo-alt-fill" style="color: #dc3545; font-size: 2.2rem;"></i>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="stat-card" style="border-left-color: #ffc107;">
+            <div>
+                <div class="stat-label">Avg Resolution Time</div>
+                <div class="stat-value">{{ stats.avg_resolution_days }}d</div>
+                <small class="text-muted d-block">For resolved complaints</small>
+            </div>
+            <i class="bi bi-clock-history" style="color: #ffc107; font-size: 2.2rem;"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Complaints by Location Chart -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="section-title"><i class="bi bi-bar-chart-line"></i> Complaints by Location</h5>
+    </div>
+    <div class="card-body p-0">
+        <canvas id="locationChart" height="100"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('{{ url_for("admin.api_analytics") }}')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('locationChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.locations,
+                    datasets: [{
+                        label: 'Complaints',
+                        data: data.counts,
+                        backgroundColor: [
+                            '#dc3545', '#fd7e14', '#ffc107', '#28a745', '#20c997',
+                            '#17a2b8', '#6f42c1', '#e83e8c', '#6c757d', '#343a40'
+                        ],
+                        borderColor: '#495057',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { precision: 0 }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        });
+});
+</script>
+
+<!-- Quick Actions -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="section-title"><i class="bi bi-lightning-fill"></i>Quick Actions</h5>
+    </div>
+    <div class="card-body">
+        <div class="actions-row">
+            <a href="{{ url_for('admin.view_all_complaints') }}" class="btn btn-primary">
+                <i class="bi bi-list me-1"></i> All Complaints
+            </a>
+            <a href="{{ url_for('admin.view_all_complaints', status='Pending') }}" class="btn btn-danger">
+                <i class="bi bi-exclamation-circle me-1"></i> Pending Tasks
+            </a>
+            <a href="{{ url_for('admin.statistics') }}" class="btn btn-info">
+                <i class="bi bi-bar-chart me-1"></i> Detailed Statistics
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Complaints -->
+<div class="card table-card">
+    <div class="card-header">
+        <h5 class="section-title"><i class="bi bi-clock-history"></i>Recent Complaints</h5>
+        <a href="{{ url_for('admin.view_all_complaints') }}" class="btn btn-sm btn-outline-primary">View All</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Location</th>
+                    <th>Submitted By</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if recent_complaints %}
+                    {% for c in recent_complaints %}
+                    <tr>
+                        <td style="color:var(--mist);">#{{ c.id }}</td>
+                        <td>{{ c.title }}</td>
+                        <td>{{ c.location }}</td>
+                        <td>{{ c.submitted_by }}</td>
+                        <td>
+                            {% if c.status == 'Pending' %}
+                                <span class="badge-status badge-pending">Pending</span>
+                            {% elif c.status == 'In Progress' %}
+                                <span class="badge-status badge-progress">In Progress</span>
+                            {% else %}
+                                <span class="badge-status badge-resolved">Resolved</span>
+                            {% endif %}
+                        </td>
+                        <td style="color:var(--mist);">{{ c.date }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.view_complaint', id=c.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <i class="bi bi-inbox"></i>
+                                No recent complaints yet. Go to <a href="{{ url_for('admin.view_all_complaints') }}">All Complaints</a> to manage issues.
+                            </div>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

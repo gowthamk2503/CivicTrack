@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics - Road Maintenance Portal{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-bar-chart"></i> Statistics & Analytics</h2>
+
+<div class="row mb-4">
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Summary</h5>
+                <div class="row text-center">
+                    <div class="col-6 border-end">
+                        <h3 class="text-primary">{{ stats.total_users }}</h3>
+                        <p class="text-muted">Users</p>
+                    </div>
+                    <div class="col-6">
+                        <h3 class="text-info">{{ stats.total_complaints }}</h3>
+                        <p class="text-muted">Total Complaints</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Complaint Status Breakdown</h5>
+                <div class="d-flex justify-content-around">
+                    <div class="text-center">
+                        <h4 class="text-danger">{{ stats.pending }}</h4>
+                        <small class="text-muted">Pending</small>
+                    </div>
+                    <div class="text-center">
+                        <h4 class="text-warning">{{ stats.in_progress }}</h4>
+                        <small class="text-muted">In Progress</small>
+                    </div>
+                    <div class="text-center">
+                        <h4 class="text-success">{{ stats.resolved }}</h4>
+                        <small class="text-muted">Resolved</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Progress Bar -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Resolution Progress</h5>
+
+                {% set total = stats.total_complaints if stats.total_complaints > 0 else 1 %}
+                {% set resolved_pct = ((stats.resolved / total) * 100)|round|int %}
+                {% set progress_pct = ((stats.in_progress / total) * 100)|round|int %}
+                {% set pending_pct = ((stats.pending / total) * 100)|round|int %}
+
+                <!-- Resolved -->
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Resolved</span>
+                        <span class="text-success fw-bold">{{ resolved_pct }}%</span>
+                    </div>
+                    <div class="progress" style="height: 25px;">
+                        <div class="progress-bar bg-success progress-dynamic" data-width="{{ resolved_pct }}"></div>
+                    </div>
+                </div>
+
+                <!-- In Progress -->
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>In Progress</span>
+                        <span class="text-warning fw-bold">{{ progress_pct }}%</span>
+                    </div>
+                    <div class="progress" style="height: 25px;">
+                        <div class="progress-bar bg-warning progress-dynamic" data-width="{{ progress_pct }}"></div>
+                    </div>
+                </div>
+
+                <!-- Pending -->
+                <div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Pending</span>
+                        <span class="text-danger fw-bold">{{ pending_pct }}%</span>
+                    </div>
+                    <div class="progress" style="height: 25px;">
+                        <div class="progress-bar bg-danger progress-dynamic" data-width="{{ pending_pct }}"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Top Locations -->
+{% if stats.top_locations %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-geo-alt"></i> Top Problem Areas</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Location</th>
+                            <th>Complaints</th>
+                            <th>Bar Chart</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set max_complaints = stats.top_locations[0][1] if stats.top_locations else 1 %}
+                        {% for location, count in stats.top_locations %}
+                        {% set width_pct = ((count / max_complaints) * 100)|round|int %}
+                        <tr>
+                            <td><strong>{{ location }}</strong></td>
+                            <td><span class="badge bg-primary">{{ count }}</span></td>
+                            <td>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar bg-info progress-dynamic" data-width="{{ width_pct }}">
+                                        {{ count }}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="text-center mt-4">
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left"></i> Back to Dashboard
+    </a>
+</div>
+
+<!-- JS for Progress Bars -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".progress-dynamic").forEach(function (el) {
+        let width = el.getAttribute("data-width");
+        el.style.width = width + "%";
+    });
+});
+</script>
+
+{% endblock %}
