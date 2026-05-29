@@ -1,318 +1,461 @@
-# Citizen Feedback on Road Maintenance
+# 🛣️ Citizen Feedback on Road Maintenance System
 
-A complete full-stack Python web application where citizens can report road maintenance issues and admins can manage resolutions.
+<div align="center">
 
-## 🎯 Features
+<h1>🚧 Citizen Feedback on Road Maintenance</h1>
 
-### User Features
-- **User Registration & Login** - Secure authentication with password hashing
-- **Submit Complaints** - Report road issues with:
-  - Title and detailed description
-  - Photo upload with preview
-  - Location information
-- **Track Complaints** - Monitor complaint status in real-time:
-  - Pending (Red)
-  - In Progress (Yellow)
-  - Resolved (Green)
-- **View History** - See all submitted complaints with pagination
+### Smart Civic Issue Reporting & Road Maintenance Management Platform
 
-### Admin Features
-- **Admin Dashboard** - Overview of complaint statistics:
-  - Total complaints
-  - Pending, In Progress, and Resolved counts
-  - Quick action buttons
-- **Manage Complaints** - View all complaints with filtering
-- **Update Status** - Change complaint status and track progress
-- **Delete Complaints** - Remove complaints if needed
-- **Statistics** - Detailed analytics:
-  - Resolution progress charts
-  - Top problem areas
-  - User and complaint statistics
+A full-stack web application that empowers citizens to report road maintenance issues with image evidence, track complaint progress, and enables government authorities to efficiently manage and resolve civic infrastructure problems.
 
-### Security Features
-- Password hashing with Werkzeug
-- Input validation
-- Session-based authentication
-- Protected admin routes
-- CSRF protection
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge\&logo=python\&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge\&logo=flask)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge\&logo=sqlite)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge\&logo=bootstrap)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-D71F00?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 
-## 🛠 Tech Stack
+### 🌍 Building Better Roads Through Citizen Participation
 
-- **Backend**: Flask 2.3.3
-- **Database**: SQLite with SQLAlchemy ORM
-- **Frontend**: HTML5, CSS3, Bootstrap 5
-- **JavaScript**: Vanilla JS with Bootstrap utilities
-- **File Storage**: Local uploads folder
+</div>
 
-## 📁 Project Structure
+---
 
+# 📖 Overview
+
+Road maintenance remains one of the most common challenges faced by cities and municipalities. Traditional complaint reporting methods often involve delays, lack of transparency, and inefficient communication between citizens and authorities.
+
+The **Citizen Feedback on Road Maintenance System** provides a digital platform where citizens can report road-related issues, upload supporting images, track complaint status, and receive updates while administrators efficiently manage complaints through a centralized dashboard.
+
+---
+
+# 🎯 Problem Statement
+
+Current road maintenance reporting systems suffer from:
+
+* Delayed complaint registration
+* Lack of transparency
+* No centralized complaint management
+* Difficulty tracking issue resolution
+* Poor communication between citizens and authorities
+* Absence of analytics for infrastructure planning
+
+This system addresses these challenges through a modern web-based solution.
+
+---
+
+# 🌟 Key Features
+
+## 👥 Citizen Features
+
+### 🔐 Secure Authentication
+
+* User Registration
+* Secure Login System
+* Password Encryption
+* Session Management
+
+### 📝 Submit Road Complaints
+
+Citizens can report:
+
+* Potholes
+* Damaged Roads
+* Water Logging
+* Road Cracks
+* Construction Issues
+* Traffic Hazards
+
+Each complaint includes:
+
+* Issue Title
+* Detailed Description
+* Location Information
+* Image Upload
+
+---
+
+### 📊 Complaint Tracking
+
+Track complaint progress with status indicators:
+
+| Status      | Color     |
+| ----------- | --------- |
+| Pending     | 🔴 Red    |
+| In Progress | 🟡 Yellow |
+| Resolved    | 🟢 Green  |
+
+---
+
+### 📂 Complaint History
+
+Users can:
+
+* View previous complaints
+* Monitor updates
+* Access complaint details
+* Track resolution progress
+
+---
+
+# ⚙️ Admin Features
+
+## 📊 Admin Dashboard
+
+Real-time dashboard displaying:
+
+* Total Complaints
+* Pending Complaints
+* In Progress Issues
+* Resolved Complaints
+
+---
+
+## 🛠 Complaint Management
+
+Administrators can:
+
+* View all complaints
+* Filter complaints by status
+* Update complaint progress
+* Delete invalid complaints
+* Monitor complaint activity
+
+---
+
+## 📈 Analytics & Statistics
+
+Advanced reporting system provides:
+
+* Complaint Distribution
+* Resolution Rate
+* Top Problem Areas
+* User Activity Insights
+* Infrastructure Trends
+
+---
+
+# 🛡 Security Features
+
+* Password Hashing using Werkzeug
+* Input Validation
+* Session-Based Authentication
+* Protected Admin Routes
+* CSRF Protection
+* Secure File Upload Validation
+
+---
+
+# 🛠 Technology Stack
+
+## Backend
+
+| Technology | Purpose                   |
+| ---------- | ------------------------- |
+| Flask      | Web Framework             |
+| SQLAlchemy | ORM                       |
+| SQLite     | Database                  |
+| Werkzeug   | Authentication & Security |
+
+---
+
+## Frontend
+
+| Technology  | Purpose               |
+| ----------- | --------------------- |
+| HTML5       | Structure             |
+| CSS3        | Styling               |
+| Bootstrap 5 | Responsive UI         |
+| JavaScript  | Dynamic Functionality |
+
+---
+
+## Storage
+
+| Technology    | Purpose          |
+| ------------- | ---------------- |
+| Local Storage | Uploaded Images  |
+| SQLite        | Application Data |
+
+---
+
+# 📸 Application Screenshots
+
+## 🏠 Home Page
+
+```text
+Add Screenshot:
+screenshots/home.png
 ```
-citizen_project/
-├── app.py              # Main Flask application
-├── config.py           # Configuration settings
-├── models.py           # Database models (User, Complaint)
-├── requirements.txt    # Python dependencies
-├── database.db         # SQLite database (generated on first run)
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c6ed34fc-0456-4013-9cb5-bb898815a934" />
+
+
+---
+
+## 📝 Complaint Submission
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/61540898-916d-4342-be19-49499abff3eb" />
+
+
+---
+
+
+## ⚙️ Admin Dashboard
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b7012093-7d6c-4a57-9fc1-c20a8cfa5787" />
+
+
+---
+
+## 📈 Analytics Dashboard
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ac6a6752-bd72-45cc-a28b-aae8cdbe99e6" />
+
+
+---
+
+
+
+# 🏗 System Architecture
+
+```text
+Citizen
+   │
+   ▼
+Complaint Submission
+   │
+   ▼
+Flask Backend
+   │
+   ▼
+SQLite Database
+   │
+   ▼
+Admin Dashboard
+   │
+   ▼
+Complaint Processing
+   │
+   ▼
+Status Updates
+   │
+   ▼
+Citizen Notification
+```
+
+---
+
+# 📂 Project Structure
+
+```bash
+Citizen-Feedback-System/
+│
+├── app.py
+├── config.py
+├── models.py
+├── requirements.txt
+│
 ├── routes/
-│   ├── __init__.py
-│   ├── user_routes.py  # User authentication & complaint routes
-│   └── admin_routes.py # Admin dashboard & management routes
+│   ├── user_routes.py
+│   └── admin_routes.py
+│
 ├── templates/
-│   ├── base.html       # Base template with navigation
-│   ├── index.html      # Home page
-│   ├── about.html      # About page
-│   ├── register.html   # Registration page
-│   ├── login.html      # Login page
-│   ├── complaint_form.html      # Submit complaint form
-│   ├── user_dashboard.html      # User's complaints list
-│   ├── complaint_detail.html    # Individual complaint details
-│   ├── admin_dashboard.html     # Admin dashboard
-│   ├── admin_complaints.html    # Admin manage complaints
-│   ├── admin_statistics.html    # Admin analytics
-│   ├── 404.html        # Not found page
-│   └── 500.html        # Server error page
+│   ├── base.html
+│   ├── index.html
+│   ├── login.html
+│   ├── register.html
+│   ├── complaint_form.html
+│   ├── user_dashboard.html
+│   ├── admin_dashboard.html
+│   └── admin_statistics.html
+│
 ├── static/
 │   ├── css/
-│   │   └── style.css   # Custom styles
 │   └── js/
-│       └── script.js   # JavaScript utilities
-├── uploads/            # User uploaded images
-└── README.md           # This file
+│
+├── uploads/
+├── screenshots/
+└── README.md
 ```
 
-## 🚀 Installation & Setup
+---
 
-### Prerequisites
-- Python 3.8+
-- pip (Python package manager)
-- Windows/Mac/Linux
+# 🚀 Installation & Setup
 
-### Step 1: Extract Project Files
-Navigate to the project directory:
+## Clone Repository
+
 ```bash
-cd c:\Users\vijay\OneDrive\Desktop\citizen_project
+git clone https://github.com/gowthamk2503/CivicTrack.git
 ```
 
-### Step 2: Create Virtual Environment (Recommended)
+---
+
+## Create Virtual Environment
+
+### Windows
+
 ```bash
-# Create virtual environment
 python -m venv venv
-
-# Activate virtual environment
-# On Windows:
 venv\Scripts\activate
+```
 
-# On Mac/Linux:
+### Linux / Mac
+
+```bash
+python3 -m venv venv
 source venv/bin/activate
 ```
 
-### Step 3: Install Dependencies
+---
+
+## Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### Step 4: Run the Application
+---
+
+## Run Application
+
 ```bash
 python app.py
 ```
 
-The application will start on `http://localhost:5000`
+Application runs at:
 
-## 📖 Usage Guide
-
-### First Time Setup
-1. The application automatically creates an admin user on first run:
-   - **Email**: `admin@example.com`
-   - **Password**: `admin123`
-
-2. Open browser and navigate to `http://localhost:5000`
-
-### For Citizens
-
-#### Register
-1. Click "Register" in the top menu
-2. Enter name, email, and password (min 6 characters)
-3. Confirm password and submit
-4. Login with your credentials
-
-#### Report an Issue
-1. After login, click "Submit New" or "Report an Issue"
-2. Fill in the form:
-   - **Title**: Brief description (e.g., "Large pothole on Main Street")
-   - **Description**: Detailed information about the issue
-   - **Location**: Street name or address
-   - **Photo**: Upload an image (PNG, JPG, JPEG, GIF - Max 16MB)
-3. Click "Submit Complaint"
-4. You'll be redirected to your complaints list
-
-#### Track Complaints
-1. Click "My Complaints" to see all your reports
-2. Click "View Details" to see full information
-3. Monitor status changes as authorities work on the issue
-
-### For Admins
-
-#### Access Admin Panel
-1. Login with admin credentials
-2. You'll be redirected to Admin Dashboard
-
-#### Dashboard
-- View statistics about all complaints
-- See counts for Pending, In Progress, and Resolved
-- Quick access to all complaints and detailed statistics
-
-#### Manage Complaints
-1. Go to "All Complaints" from Admin menu
-2. Filter by status (Pending, In Progress, Resolved)
-3. Click edit button to update status
-4. Click delete button to remove a complaint (with confirmation)
-
-#### View Statistics
-1. Click "Statistics" in Admin menu
-2. See resolution progress with visual charts
-3. View top problem areas with complaint counts
-
-## 🔑 Default Credentials
-
-**Admin Account:**
-- Email: `admin@example.com`
-- Password: `admin123`
-
-⚠️ **IMPORTANT**: Change these credentials in production!
-
-## 📋 API Routes
-
-### User Routes
-- `GET /` - Home page
-- `GET /about` - About page
-- `GET/POST /register` - User registration
-- `GET/POST /login` - User login
-- `GET /logout` - User logout
-- `GET/POST /submit-complaint` - Submit new complaint
-- `GET /view-complaints` - View user's complaints (paginated)
-- `GET /complaint/<id>` - View complaint details
-
-### Admin Routes
-- `GET /admin/dashboard` - Admin dashboard
-- `GET /admin/complaints` - View all complaints (with filtering)
-- `POST /admin/complaint/<id>/update-status` - Update complaint status
-- `POST /admin/complaint/<id>/delete` - Delete complaint
-- `GET /admin/statistics` - View detailed statistics
-
-## 🎨 Customization
-
-### Change Admin Credentials
-Edit `app.py` in the `create_app()` function:
-```python
-# Change these values
-admin = User(
-    name='Your Admin Name',
-    email='youremail@example.com',
-    is_admin=True
-)
-admin.set_password('yourpassword')
+```bash
+http://localhost:5000
 ```
-
-### Change Theme Colors
-Edit `static/css/style.css` - Modify CSS variables in `:root` selector
-
-### Customize Flask Settings
-Edit `config.py` to adjust:
-- `MAX_CONTENT_LENGTH` - File upload size limit
-- `ALLOWED_EXTENSIONS` - Allowed file types
-- `UPLOAD_FOLDER` - Folder for uploaded images
-- `SECRET_KEY` - Session key (change in production)
-
-## 🔒 Security Notes
-
-1. **Change Secret Key**: In production, change `SECRET_KEY` in `config.py`
-2. **Change Admin Password**: Update default admin credentials
-3. **Enable HTTPS**: Use HTTPS in production
-4. **Database**: Consider using PostgreSQL instead of SQLite for production
-5. **Validation**: All inputs are validated server-side
-
-## 🐛 Troubleshooting
-
-### Port Already in Use
-If port 5000 is already in use, modify `app.py`:
-```python
-app.run(debug=True, host='0.0.0.0', port=5001)  # Change port number
-```
-
-### Database Issues
-To reset the database:
-1. Delete `database.db` file
-2. Run `python app.py` again to create fresh database
-
-### Upload Issues
-- Check `uploads/` folder exists
-- Ensure proper file permissions
-- Verify file size is less than 16MB
-
-### Session Issues
-- Clear browser cookies
-- Ensure cookies are enabled
-- Check browser's storage settings
-
-## 📚 Dependencies
-
-- **Flask**: Web framework
-- **Flask-SQLAlchemy**: ORM for database
-- **Werkzeug**: Security utilities (password hashing)
-- **python-dotenv**: Environment variables (optional)
-
-## 🎓 Learning Resources
-
-This project demonstrates:
-- Flask web framework fundamentals
-- SQLAlchemy ORM usage
-- User authentication and authorization
-- File upload handling
-- Bootstrap responsive design
-- RESTful API concepts
-- Database modeling
-- Session management
-
-## 📝 Future Enhancements
-
-Potential features to add:
-- Email notifications for updates
-- Map integration (Google Maps/Leaflet)
-- Admin user management
-- Comment/discussion on complaints
-- Photo gallery for complaints
-- Export reports to PDF
-- SMS notifications
-- Mobile app
-- Real-time updates with WebSockets
-
-## 📞 Support
-
-For issues or questions:
-1. Check the troubleshooting section
-2. Review Flask documentation: https://flask.palletsprojects.com/
-3. Check SQLAlchemy docs: https://docs.sqlalchemy.org/
-
-## 📄 License
-
-This project is provided as-is for educational purposes.
-
-## ✅ Checklist for Running
-
-- [ ] Python 3.8+ installed
-- [ ] Project files extracted
-- [ ] Virtual environment created and activated
-- [ ] Dependencies installed (`pip install -r requirements.txt`)
-- [ ] Navigate to project folder
-- [ ] Run `python app.py`
-- [ ] Open browser to `http://localhost:5000`
-- [ ] Login with admin@example.com / admin123
-- [ ] Test user registration
-- [ ] Test complaint submission
-- [ ] Test admin functions
 
 ---
 
-**Happy Coding! 🚀**
+# 🔑 Default Admin Credentials
 
-For issues with the road maintenance system, please report them through the application!
+```text
+Email: admin@example.com
+Password: admin123
+```
+
+⚠️ Change these credentials before production deployment.
+
+---
+
+# 📋 Application Workflow
+
+```text
+Citizen Registration
+        │
+        ▼
+User Login
+        │
+        ▼
+Submit Complaint
+        │
+        ▼
+Upload Image Evidence
+        │
+        ▼
+Store in Database
+        │
+        ▼
+Admin Review
+        │
+        ▼
+Status Update
+        │
+        ▼
+Citizen Tracks Progress
+        │
+        ▼
+Complaint Resolution
+```
+
+---
+
+# 📊 Future Enhancements
+
+### 🌍 Smart City Features
+
+* Google Maps Integration
+* Live Complaint Mapping
+* AI-Based Road Damage Detection
+* GPS Location Tracking
+* Mobile Application
+* Real-Time Notifications
+* SMS Alerts
+* Email Updates
+* PDF Report Generation
+* Complaint Prioritization using AI
+
+---
+
+# 🎓 Learning Outcomes
+
+This project demonstrates:
+
+✅ Flask Development
+
+✅ Database Design
+
+✅ SQLAlchemy ORM
+
+✅ Authentication Systems
+
+✅ File Upload Handling
+
+✅ Admin Dashboard Development
+
+✅ Data Analytics
+
+✅ Responsive Web Design
+
+✅ Civic Technology Solutions
+
+---
+
+# 🌟 Why This Project?
+
+The Citizen Feedback on Road Maintenance System promotes transparency and citizen participation by enabling direct communication between the public and local authorities.
+
+The platform helps:
+
+* Improve road quality
+* Reduce complaint resolution time
+* Increase government accountability
+* Support smart city initiatives
+* Enhance citizen engagement
+
+---
+
+# 👨‍💻 Author
+
+## Gowtham K
+
+🎓 B.Tech Information Technology
+🏫 Sri Eshwar College of Engineering
+
+📧 [gowtham.k2023it@sece.ac.in](mailto:gowtham.k2023it@sece.ac.in)
+
+### 🌐 Connect With Me
+
+* GitHub
+* LinkedIn
+* Portfolio
+
+---
+
+# 📜 License
+
+This project is licensed under the MIT License.
+
+---
+
+<div align="center">
+
+## ⭐ If you found this project useful, give it a Star ⭐
+
+### 🚧 Building Smarter Cities Through Technology 🚧
+
+</div>
