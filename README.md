@@ -1,266 +1,147 @@
-# 🛣️ Citizen Feedback on Road Maintenance System
-
 <div align="center">
 
-<h1>🚧 Citizen Feedback on Road Maintenance</h1>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&pause=1000&color=EF4444&center=true&vCenter=true&width=700&lines=🚧+CivicTrack;Smart+Road+Issue+Reporting;Building+Better+Cities+Together!" alt="Typing SVG" />
 
-### Smart Civic Issue Reporting & Road Maintenance Management Platform
+<br/>
 
-A full-stack web application that empowers citizens to report road maintenance issues with image evidence, track complaint progress, and enables government authorities to efficiently manage and resolve civic infrastructure problems.
+<p>
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" />
+  <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" />
+  <img src="https://img.shields.io/badge/SQLAlchemy-D71F00?style=for-the-badge&logoColor=white" />
+  <img src="https://img.shields.io/badge/Bootstrap_5-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" />
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" />
+</p>
 
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge\&logo=python\&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge\&logo=flask)
-![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge\&logo=sqlite)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge\&logo=bootstrap)
-![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-D71F00?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
+<br/>
 
-### 🌍 Building Better Roads Through Citizen Participation
+> **CivicTrack** empowers citizens to report road issues with image evidence, track complaint progress in real time, and enables authorities to manage and resolve infrastructure problems efficiently — all from one platform.
+
+<br/>
+
+<a href="https://github.com/gowthamk2503/CivicTrack">
+  <img src="https://img.shields.io/badge/⭐ Star on GitHub-Support the Project-24292e?style=for-the-badge&logo=github" />
+</a>
 
 </div>
 
 ---
 
-# 📖 Overview
+## 📸 Screenshots
 
-Road maintenance remains one of the most common challenges faced by cities and municipalities. Traditional complaint reporting methods often involve delays, lack of transparency, and inefficient communication between citizens and authorities.
+<div align="center">
 
-The **Citizen Feedback on Road Maintenance System** provides a digital platform where citizens can report road-related issues, upload supporting images, track complaint status, and receive updates while administrators efficiently manage complaints through a centralized dashboard.
+| 🏠 Home Page | 📝 Complaint Form |
+|:---:|:---:|
+| ![Home](https://github.com/user-attachments/assets/c6ed34fc-0456-4013-9cb5-bb898815a934) | ![Complaint](https://github.com/user-attachments/assets/61540898-916d-4342-be19-49499abff3eb) |
 
----
+| ⚙️ Admin Dashboard | 📈 Analytics |
+|:---:|:---:|
+| ![Admin](https://github.com/user-attachments/assets/b7012093-7d6c-4a57-9fc1-c20a8cfa5787) | ![Analytics](https://github.com/user-attachments/assets/ac6a6752-bd72-45cc-a28b-aae8cdbe99e6) |
 
-# 🎯 Problem Statement
-
-Current road maintenance reporting systems suffer from:
-
-* Delayed complaint registration
-* Lack of transparency
-* No centralized complaint management
-* Difficulty tracking issue resolution
-* Poor communication between citizens and authorities
-* Absence of analytics for infrastructure planning
-
-This system addresses these challenges through a modern web-based solution.
+</div>
 
 ---
 
-# 🌟 Key Features
+## 🌍 The Problem We're Solving
 
-## 👥 Citizen Features
+Traditional road complaint systems are broken:
 
-### 🔐 Secure Authentication
-
-* User Registration
-* Secure Login System
-* Password Encryption
-* Session Management
-
-### 📝 Submit Road Complaints
-
-Citizens can report:
-
-* Potholes
-* Damaged Roads
-* Water Logging
-* Road Cracks
-* Construction Issues
-* Traffic Hazards
-
-Each complaint includes:
-
-* Issue Title
-* Detailed Description
-* Location Information
-* Image Upload
-
----
-
-### 📊 Complaint Tracking
-
-Track complaint progress with status indicators:
-
-| Status      | Color     |
-| ----------- | --------- |
-| Pending     | 🔴 Red    |
-| In Progress | 🟡 Yellow |
-| Resolved    | 🟢 Green  |
-
----
-
-### 📂 Complaint History
-
-Users can:
-
-* View previous complaints
-* Monitor updates
-* Access complaint details
-* Track resolution progress
-
----
-
-# ⚙️ Admin Features
-
-## 📊 Admin Dashboard
-
-Real-time dashboard displaying:
-
-* Total Complaints
-* Pending Complaints
-* In Progress Issues
-* Resolved Complaints
-
----
-
-## 🛠 Complaint Management
-
-Administrators can:
-
-* View all complaints
-* Filter complaints by status
-* Update complaint progress
-* Delete invalid complaints
-* Monitor complaint activity
-
----
-
-## 📈 Analytics & Statistics
-
-Advanced reporting system provides:
-
-* Complaint Distribution
-* Resolution Rate
-* Top Problem Areas
-* User Activity Insights
-* Infrastructure Trends
-
----
-
-# 🛡 Security Features
-
-* Password Hashing using Werkzeug
-* Input Validation
-* Session-Based Authentication
-* Protected Admin Routes
-* CSRF Protection
-* Secure File Upload Validation
-
----
-
-# 🛠 Technology Stack
-
-## Backend
-
-| Technology | Purpose                   |
-| ---------- | ------------------------- |
-| Flask      | Web Framework             |
-| SQLAlchemy | ORM                       |
-| SQLite     | Database                  |
-| Werkzeug   | Authentication & Security |
-
----
-
-## Frontend
-
-| Technology  | Purpose               |
-| ----------- | --------------------- |
-| HTML5       | Structure             |
-| CSS3        | Styling               |
-| Bootstrap 5 | Responsive UI         |
-| JavaScript  | Dynamic Functionality |
-
----
-
-## Storage
-
-| Technology    | Purpose          |
-| ------------- | ---------------- |
-| Local Storage | Uploaded Images  |
-| SQLite        | Application Data |
-
----
-
-# 📸 Application Screenshots
-
-## 🏠 Home Page
-
-```text
-Add Screenshot:
-screenshots/home.png
+```
+❌ Manual forms → Delayed registration
+❌ No tracking  → Zero transparency
+❌ Siloed data  → No central management
+❌ No analytics → Poor infrastructure planning
+❌ No feedback  → Citizens left in the dark
 ```
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c6ed34fc-0456-4013-9cb5-bb898815a934" />
-
-
----
-
-## 📝 Complaint Submission
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/61540898-916d-4342-be19-49499abff3eb" />
-
+**CivicTrack fixes all of this** with a modern web platform that connects citizens directly to the authorities who can act.
 
 ---
 
+## ✨ Features
 
-## ⚙️ Admin Dashboard
+<table>
+<tr>
+<td width="50%">
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b7012093-7d6c-4a57-9fc1-c20a8cfa5787" />
+### 👥 Citizen Portal
+- 🔐 Secure registration & login
+- 📝 Submit road complaints with images
+- 📍 Add location information
+- 📊 Real-time status tracking
+- 📂 Full complaint history
+- 🔔 Monitor resolution progress
 
+**Reportable Issues:**
+> Potholes · Damaged Roads · Water Logging · Road Cracks · Construction Issues · Traffic Hazards
+
+</td>
+<td width="50%">
+
+### 🛡️ Admin Dashboard
+- 📊 Live complaint statistics
+- 🔍 Filter by status
+- ✏️ Update complaint progress
+- 🗑️ Remove invalid complaints
+- 📈 Analytics & trends
+- 👥 User activity insights
+
+**Dashboard Metrics:**
+> Total · Pending · In Progress · Resolved
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 📈 Analytics Dashboard
+## 📊 Complaint Status System
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ac6a6752-bd72-45cc-a28b-aae8cdbe99e6" />
+<div align="center">
 
+| Status | Indicator | Meaning |
+|:------:|:---------:|:--------|
+| Pending | 🔴 Red | Complaint submitted, awaiting review |
+| In Progress | 🟡 Yellow | Authorities are actively working on it |
+| Resolved | 🟢 Green | Issue has been fixed and closed |
+
+</div>
 
 ---
 
+## 🛠️ Tech Stack
 
-
-# 🏗 System Architecture
-
-```text
-Citizen
-   │
-   ▼
-Complaint Submission
-   │
-   ▼
-Flask Backend
-   │
-   ▼
-SQLite Database
-   │
-   ▼
-Admin Dashboard
-   │
-   ▼
-Complaint Processing
-   │
-   ▼
-Status Updates
-   │
-   ▼
-Citizen Notification
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        CIVICTRACK STACK                         │
+├──────────────────────────┬──────────────────────────────────────┤
+│         BACKEND          │            FRONTEND                  │
+│──────────────────────────│──────────────────────────────────────│
+│  Flask  (Web Framework)  │  HTML5      (Structure)              │
+│  SQLAlchemy  (ORM)       │  CSS3       (Styling)                │
+│  SQLite  (Database)      │  Bootstrap 5 (Responsive UI)         │
+│  Werkzeug  (Auth/Security│  JavaScript  (Dynamic Behavior)      │
+└──────────────────────────┴──────────────────────────────────────┘
 ```
 
 ---
 
-# 📂 Project Structure
+## 📂 Project Structure
 
 ```bash
-Citizen-Feedback-System/
+CivicTrack/
 │
-├── app.py
-├── config.py
-├── models.py
-├── requirements.txt
+├── 🐍 app.py                    # Application entry point
+├── ⚙️  config.py                 # Configuration settings
+├── 🗄️  models.py                 # Database models
+├── 📋 requirements.txt          # Python dependencies
 │
-├── routes/
-│   ├── user_routes.py
-│   └── admin_routes.py
+├── 📁 routes/
+│   ├── user_routes.py           # Citizen-facing routes
+│   └── admin_routes.py          # Admin routes
 │
-├── templates/
+├── 🎨 templates/
 │   ├── base.html
 │   ├── index.html
 │   ├── login.html
@@ -270,192 +151,140 @@ Citizen-Feedback-System/
 │   ├── admin_dashboard.html
 │   └── admin_statistics.html
 │
-├── static/
+├── 🖼️  static/
 │   ├── css/
 │   └── js/
 │
-├── uploads/
-├── screenshots/
-└── README.md
+├── 📤 uploads/                  # Uploaded complaint images
+└── 📸 screenshots/
 ```
 
 ---
 
-# 🚀 Installation & Setup
+## 🚀 Quick Start
 
-## Clone Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/gowthamk2503/CivicTrack.git
+cd CivicTrack
 ```
 
----
-
-## Create Virtual Environment
-
-### Windows
+### 2. Create a Virtual Environment
 
 ```bash
+# Windows
 python -m venv venv
 venv\Scripts\activate
-```
 
-### Linux / Mac
-
-```bash
+# Linux / Mac
 python3 -m venv venv
 source venv/bin/activate
 ```
 
----
-
-## Install Dependencies
+### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## Run Application
+### 4. Run the Application
 
 ```bash
 python app.py
-```
-
-Application runs at:
-
-```bash
-http://localhost:5000
+# Runs on http://localhost:5000
 ```
 
 ---
 
-# 🔑 Default Admin Credentials
+## 🔑 Default Admin Credentials
 
-```text
-Email: admin@example.com
+```
+Email:    admin@example.com
 Password: admin123
 ```
 
-⚠️ Change these credentials before production deployment.
+> ⚠️ **Important:** Change these credentials before any production deployment.
 
 ---
 
-# 📋 Application Workflow
+## 🔄 Application Workflow
 
-```text
-Citizen Registration
-        │
-        ▼
-User Login
-        │
-        ▼
-Submit Complaint
-        │
-        ▼
-Upload Image Evidence
-        │
-        ▼
-Store in Database
-        │
-        ▼
-Admin Review
-        │
-        ▼
-Status Update
-        │
-        ▼
-Citizen Tracks Progress
-        │
-        ▼
-Complaint Resolution
+```
+👤 Citizen Registers & Logs In
+           │
+           ▼
+    📝 Submits Complaint
+    (Title · Description · Location · Image)
+           │
+           ▼
+    🗄️ Stored in Database
+           │
+           ▼
+    🛡️ Admin Reviews Complaint
+           │
+      ┌────┴────┐
+      ▼         ▼
+  🟡 In       🟢 Resolved
+  Progress
+      │
+      ▼
+  👤 Citizen Tracks Progress → ✅ Issue Closed
 ```
 
 ---
 
-# 📊 Future Enhancements
+## 🛡️ Security Features
 
-### 🌍 Smart City Features
-
-* Google Maps Integration
-* Live Complaint Mapping
-* AI-Based Road Damage Detection
-* GPS Location Tracking
-* Mobile Application
-* Real-Time Notifications
-* SMS Alerts
-* Email Updates
-* PDF Report Generation
-* Complaint Prioritization using AI
+| Feature | Implementation |
+|---------|---------------|
+| Password Security | Werkzeug hashing |
+| Input Validation | Server-side checks |
+| Session Auth | Flask session management |
+| Admin Protection | Role-based route guards |
+| CSRF Protection | Flask-WTF tokens |
+| File Upload Safety | Type & size validation |
 
 ---
 
-# 🎓 Learning Outcomes
+## 🔮 Roadmap
 
-This project demonstrates:
-
-✅ Flask Development
-
-✅ Database Design
-
-✅ SQLAlchemy ORM
-
-✅ Authentication Systems
-
-✅ File Upload Handling
-
-✅ Admin Dashboard Development
-
-✅ Data Analytics
-
-✅ Responsive Web Design
-
-✅ Civic Technology Solutions
+- [ ] 🗺️ Google Maps integration for complaint location pinning
+- [ ] 📍 Live complaint map view for citizens
+- [ ] 🤖 AI-based road damage detection from uploaded images
+- [ ] 📱 GPS auto-location tagging
+- [ ] 📧 Email & SMS status notifications
+- [ ] 📄 PDF report generation for authorities
+- [ ] 🧠 AI complaint prioritization engine
+- [ ] 📱 Mobile application (React Native)
 
 ---
 
-# 🌟 Why This Project?
+## 🎯 What I Learned
 
-The Citizen Feedback on Road Maintenance System promotes transparency and citizen participation by enabling direct communication between the public and local authorities.
-
-The platform helps:
-
-* Improve road quality
-* Reduce complaint resolution time
-* Increase government accountability
-* Support smart city initiatives
-* Enhance citizen engagement
+This project gave me hands-on experience with Flask's application factory pattern, SQLAlchemy ORM design, and session-based authentication flows. Building the admin analytics dashboard pushed me to think about data aggregation queries, while the image upload pipeline taught me secure file handling and validation strategies.
 
 ---
 
-# 👨‍💻 Author
+## 👨‍💻 Author
 
-## Gowtham K
+<div align="center">
 
-🎓 B.Tech Information Technology
-🏫 Sri Eshwar College of Engineering
+### Gowtham K
 
-📧 [gowtham.k2023it@sece.ac.in](mailto:gowtham.k2023it@sece.ac.in)
+🎓 B.Tech Information Technology — Sri Eshwar College of Engineering
 
-### 🌐 Connect With Me
+[![GitHub](https://img.shields.io/badge/GitHub-gowthamk2503-24292e?style=for-the-badge&logo=github)](https://github.com/gowthamk2503)
+[![Email](https://img.shields.io/badge/Email-gowtham.k2023it@sece.ac.in-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:gowtham.k2023it@sece.ac.in)
 
-* GitHub
-* LinkedIn
-* Portfolio
-
----
-
-# 📜 License
-
-This project is licensed under the MIT License.
+</div>
 
 ---
 
 <div align="center">
 
-## ⭐ If you found this project useful, give it a Star ⭐
+### ⭐ Found this useful? Give it a star — it helps more than you think!
 
-### 🚧 Building Smarter Cities Through Technology 🚧
+*Built with ❤️ to make civic infrastructure smarter, one complaint at a time.*
 
 </div>
