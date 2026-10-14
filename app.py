@@ -25,13 +25,7 @@ def create_app(config_class=None):
         if os.path.isdir(alt_templates):
             template_dir = alt_templates
 
-    static_dir = os.path.join(PROJECT_ROOT, 'static')
-    if not os.path.isdir(static_dir) or not os.path.exists(os.path.join(static_dir, 'css', 'style.css')):
-        alt_static = os.path.join(PROJECT_ROOT, 'api', 'static')
-        if os.path.isdir(alt_static):
-            static_dir = alt_static
-
-    app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
+    app = Flask(__name__, template_folder=template_dir, static_folder=None)
     app.config.from_object(config_class)
     
     # Ensure UPLOAD_FOLDER is an absolute path
@@ -99,15 +93,19 @@ def create_app(config_class=None):
         """Serve files from uploads folder - secure with send_from_directory"""
         return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-    @app.route('/static/<path:filename>')
+    @app.route('/static/<path:filename>', endpoint='static')
     def custom_static(filename):
         """Serve static files with fallbacks for local and serverless environments"""
         candidates = [
-            app.static_folder,
+            os.path.join(PROJECT_ROOT, 'public', 'static'),
+            os.path.join(PROJECT_ROOT, 'public'),
             os.path.join(PROJECT_ROOT, 'static'),
             os.path.join(PROJECT_ROOT, 'api', 'static'),
-            os.path.join(os.path.dirname(__file__), 'static'),
-            os.path.join(os.path.dirname(__file__), 'api', 'static'),
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), 'public', 'static'),
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static'),
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), 'api', 'static'),
+            '/var/task/public/static',
+            '/var/task/public',
             '/var/task/static',
             '/var/task/api/static'
         ]
@@ -120,7 +118,21 @@ def create_app(config_class=None):
 
     @app.route('/favicon.ico')
     def favicon():
-        """Handle favicon request gracefully"""
+        """Handle favicon request gracefully with real file fallback"""
+        candidates = [
+            os.path.join(PROJECT_ROOT, 'public'),
+            os.path.join(PROJECT_ROOT, 'static'),
+            os.path.join(PROJECT_ROOT, 'api', 'static'),
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), 'public'),
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static'),
+            '/var/task/public',
+            '/var/task/static'
+        ]
+        for base in candidates:
+            if base and os.path.isdir(base):
+                target = os.path.join(base, 'favicon.ico')
+                if os.path.isfile(target):
+                    return send_from_directory(base, 'favicon.ico', mimetype='image/x-icon')
         return ('', 204)
 
     # Context processor to pass user info to templates
