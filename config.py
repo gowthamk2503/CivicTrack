@@ -6,11 +6,18 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 class Config:
     """Base configuration"""
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
+    db_url = os.environ.get('DATABASE_URL')
+    if db_url:
+        if db_url.startswith('postgres://'):
+            db_url = db_url.replace('postgres://', 'postgresql://', 1)
+        SQLALCHEMY_DATABASE_URI = db_url
+    else:
+        SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = 'your-secret-key-change-in-production'
-    UPLOAD_FOLDER = os.path.join(PROJECT_ROOT, 'static/uploads')
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'your-secret-key-change-in-production')
+    UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', os.path.join(PROJECT_ROOT, 'static/uploads'))
+    MAX_CONTENT_LENGTH = int(os.environ.get('MAX_CONTENT_LENGTH', 16 * 1024 * 1024))
     PERMANENT_SESSION_LIFETIME = timedelta(days=7)
     
     # Allowed file extensions

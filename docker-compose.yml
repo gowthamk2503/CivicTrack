@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - SECRET_KEY=replace_with_a_secure_random_key
+    volumes:
+      - civictrack_data:/app/instance
+      - civictrack_uploads:/app/static/uploads
+
+volumes:
+  civictrack_data:
+  civictrack_uploads:

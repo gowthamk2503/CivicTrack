@@ -1,12 +1,24 @@
+import os
+from dotenv import load_dotenv
 from flask import Flask, render_template, session, send_from_directory
-from config import DevelopmentConfig, Config, PROJECT_ROOT
+from config import DevelopmentConfig, ProductionConfig, TestingConfig, Config, PROJECT_ROOT
 from models import db, User, Complaint
 from routes.user_routes import user_bp, login_required
 from routes.admin_routes import admin_bp
-import os
 
-def create_app(config_class=DevelopmentConfig):
+load_dotenv()
+
+def create_app(config_class=None):
     """Flask application factory"""
+    if config_class is None:
+        env = os.environ.get('FLASK_ENV', 'development').lower()
+        if env == 'production':
+            config_class = ProductionConfig
+        elif env == 'testing':
+            config_class = TestingConfig
+        else:
+            config_class = DevelopmentConfig
+
     app = Flask(__name__)
     app.config.from_object(config_class)
     
@@ -91,4 +103,6 @@ def create_app(config_class=DevelopmentConfig):
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    debug = os.environ.get('FLASK_DEBUG', 'true').lower() in ('true', '1', 't')
+    app.run(debug=debug, host='0.0.0.0', port=port)
