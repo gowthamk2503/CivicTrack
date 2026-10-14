@@ -20,7 +20,17 @@ def create_app(config_class=None):
             config_class = DevelopmentConfig
 
     template_dir = os.path.join(PROJECT_ROOT, 'templates')
+    if not os.path.isdir(template_dir):
+        alt_templates = os.path.join(PROJECT_ROOT, 'api', 'templates')
+        if os.path.isdir(alt_templates):
+            template_dir = alt_templates
+
     static_dir = os.path.join(PROJECT_ROOT, 'static')
+    if not os.path.isdir(static_dir) or not os.path.exists(os.path.join(static_dir, 'css', 'style.css')):
+        alt_static = os.path.join(PROJECT_ROOT, 'api', 'static')
+        if os.path.isdir(alt_static):
+            static_dir = alt_static
+
     app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
     app.config.from_object(config_class)
     
@@ -88,6 +98,30 @@ def create_app(config_class=None):
     def uploaded_file(filename):
         """Serve files from uploads folder - secure with send_from_directory"""
         return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+    @app.route('/static/<path:filename>')
+    def custom_static(filename):
+        """Serve static files with fallbacks for local and serverless environments"""
+        candidates = [
+            app.static_folder,
+            os.path.join(PROJECT_ROOT, 'static'),
+            os.path.join(PROJECT_ROOT, 'api', 'static'),
+            os.path.join(os.path.dirname(__file__), 'static'),
+            os.path.join(os.path.dirname(__file__), 'api', 'static'),
+            '/var/task/static',
+            '/var/task/api/static'
+        ]
+        for base in candidates:
+            if base and os.path.isdir(base):
+                target = os.path.join(base, filename)
+                if os.path.isfile(target):
+                    return send_from_directory(base, filename)
+        return ("Static file not found", 404)
+
+    @app.route('/favicon.ico')
+    def favicon():
+        """Handle favicon request gracefully"""
+        return ('', 204)
 
     # Context processor to pass user info to templates
     @app.context_processor
