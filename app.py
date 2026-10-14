@@ -19,7 +19,9 @@ def create_app(config_class=None):
         else:
             config_class = DevelopmentConfig
 
-    app = Flask(__name__)
+    template_dir = os.path.join(PROJECT_ROOT, 'templates')
+    static_dir = os.path.join(PROJECT_ROOT, 'static')
+    app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
     app.config.from_object(config_class)
     
     # Ensure UPLOAD_FOLDER is an absolute path
@@ -27,7 +29,10 @@ def create_app(config_class=None):
         app.config['UPLOAD_FOLDER'] = os.path.join(PROJECT_ROOT, 'static/uploads')
     
     # Create upload folder if it doesn't exist
-    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+    try:
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+    except OSError:
+        pass
     
     # Initialize database
     db.init_app(app)

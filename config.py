@@ -4,6 +4,8 @@ from datetime import timedelta
 # Get the absolute path to the project root (where config.py is located)
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
+IS_VERCEL = bool(os.environ.get('VERCEL'))
+
 class Config:
     """Base configuration"""
     db_url = os.environ.get('DATABASE_URL')
@@ -11,12 +13,19 @@ class Config:
         if db_url.startswith('postgres://'):
             db_url = db_url.replace('postgres://', 'postgresql://', 1)
         SQLALCHEMY_DATABASE_URI = db_url
+    elif IS_VERCEL:
+        SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/database.db'
     else:
         SQLALCHEMY_DATABASE_URI = 'sqlite:///database.db'
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.environ.get('SECRET_KEY', 'your-secret-key-change-in-production')
-    UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', os.path.join(PROJECT_ROOT, 'static/uploads'))
+    
+    if IS_VERCEL:
+        UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', '/tmp/uploads')
+    else:
+        UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', os.path.join(PROJECT_ROOT, 'static/uploads'))
+
     MAX_CONTENT_LENGTH = int(os.environ.get('MAX_CONTENT_LENGTH', 16 * 1024 * 1024))
     PERMANENT_SESSION_LIFETIME = timedelta(days=7)
     
